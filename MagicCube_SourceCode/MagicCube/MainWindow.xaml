@@ -1,0 +1,106 @@
+﻿<Window x:Class="MagicCube.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="295" Width="525" Background="Black" 
+        MouseMove="Viewport3D_MouseMove" 
+        MouseLeftButtonDown="Viewport3D_MouseLeftButtonDown"
+        MouseWheel="Viewport3D_MouseWheel"
+        KeyDown="Window_KeyDown">
+    <Viewport3D>
+        <Viewport3D.Camera>
+            <!--<camera Position="15,15,15" LookDirection="-1,-1,-1" Width="15"></camera>-->
+            <!--<camera Position="-5,-5,-5" LookDirection="1,1,1" Width="10" x:Name="camera"></camera>-->
+            <!--<PerspectiveCamera Position="-5,-5,-5" LookDirection="1 1 1" FieldOfView="90"></PerspectiveCamera>-->
+            <!--<PerspectiveCamera Position="-4,-4,-4" LookDirection="1 1 1" FieldOfView="75" x:Name="camera"></PerspectiveCamera>-->
+            <PerspectiveCamera Position="8,8,8" LookDirection="-1 -1 -1" FieldOfView="75" UpDirection="-1 1 -1" x:Name="camera"></PerspectiveCamera>
+        </Viewport3D.Camera>
+        <Viewport3D.Children>
+            <ModelVisual3D x:Name="light">
+                <ModelVisual3D.Content>
+                    <AmbientLight />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+            <ModelVisual3D x:Name="magicCube">
+                <ModelVisual3D.Content>
+                    <!--    0: 0,0,0    1: 0,0,2    2: 2,0,2    3: 2,0,0    4: 2,2,0    5: 0,2,0    6: 0,2,2    7: 2,2,2    -->
+                    <Model3DGroup x:Name="cube">
+                        <Model3DGroup.Transform>
+                            <TranslateTransform3D OffsetX="-1" OffsetY="-1" OffsetZ="-1" />
+                        </Model3DGroup.Transform>
+                        <!--F1: 0,3,2,1-->
+                        <GeometryModel3D x:Name="F1">
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial Brush="Blue"/>
+                            </GeometryModel3D.Material>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions="0,0,0 2,0,0 2,0,2 0,0,2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                            </GeometryModel3D.Geometry>
+                        </GeometryModel3D>
+                        <!--F2: 0,1,6,5-->
+                        <GeometryModel3D x:Name="F2">
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial Brush="Green"/>
+                            </GeometryModel3D.Material>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions="0,0,0 0,0,2 0,2,2 0,2,0" TriangleIndices="0 1 2 0 2 3"></MeshGeometry3D>
+                            </GeometryModel3D.Geometry>
+                        </GeometryModel3D>
+                        <!--F3: 4,5,6,7-->
+                        <GeometryModel3D x:Name="F3">
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial Brush="Red"/>
+                            </GeometryModel3D.Material>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions="2,2,0 0,2,0 0,2,2 2,2,2" TriangleIndices="0 1 2 0 2 3"></MeshGeometry3D>
+                            </GeometryModel3D.Geometry>
+                        </GeometryModel3D>
+                        <!--F4: 2,3,4,7-->
+                        <GeometryModel3D x:Name="F4">
+                            <GeometryModel3D.Material>
+                                <!--<DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <VisualBrush>
+                                            <VisualBrush.Visual>
+                                                <Image Source="cubesurface.jpg">
+                                                    <Image.Style>
+                                                        <Style>
+                                                            <Setter Property="Image.Opacity" Value="0.6"></Setter>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>-->
+                                <DiffuseMaterial Brush="Yellow"/>
+                            </GeometryModel3D.Material>
+                                
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions="2,0,2 2,0,0 2,2,0 2,2,2" TriangleIndices="0 1 2 0 2 3" TextureCoordinates="0,0 0,1 1,1 1,0">
+                                </MeshGeometry3D>
+                            </GeometryModel3D.Geometry>
+                        </GeometryModel3D>
+                        <!--F5: 1,2,7,6-->
+                        <GeometryModel3D x:Name="F5">
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial Brush="White"/>
+                            </GeometryModel3D.Material>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions=" 0,0,2 2,0,2 2,2,2 0,2,2" TriangleIndices="0 1 2 0 2 3"></MeshGeometry3D>
+                            </GeometryModel3D.Geometry>
+                        </GeometryModel3D>
+                        <!--F6: 0,5,4,3-->
+                        <GeometryModel3D x:Name="F6">
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial Brush="Orange"/>
+                            </GeometryModel3D.Material>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions=" 0,0,0 0,2,0 2,2,0 2,0,0" TriangleIndices="0 1 2 0 2 3"></MeshGeometry3D>
+                            </GeometryModel3D.Geometry>
+                        </GeometryModel3D>
+                    </Model3DGroup>
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+        </Viewport3D.Children>
+    </Viewport3D>
+</Window>
