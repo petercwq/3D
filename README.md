@@ -6,4 +6,5 @@
 - [Getting started with 3D in WPF](http://www.barth-dev.de/getting-started-3d-wpf/)
 - [WPF 3D Primer](https://www.codeproject.com/Articles/23332/WPF-3D-Primer)
 - [WPF 3D Article, Tutorial with Chart Graphics C# Code](http://www.ucancode.net/WPF-3D-Article-Tutorial-with-Chart-Graphics-CSharp-Code.htm)
+- [WPF: Rubik's Cube](https://www.codeproject.com/Articles/322872/WPF-Rubiks-Cube)
 - 
