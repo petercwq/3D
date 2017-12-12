@@ -1,0 +1,51 @@
+﻿<Window x:Class="WpfMyCube.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="640" MouseWheel="Window_MouseWheel">
+    <DockPanel LastChildFill="True">
+        
+        <StackPanel Background="#FFEEEEEE" Grid.Row="1" DockPanel.Dock="Top">
+            <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
+                <Label Name="label1" Width="120" Height="23" VerticalAlignment="Top">Rotations (X,Y,Z)</Label>
+            </StackPanel>
+            <StackPanel Margin="5" FlowDirection="LeftToRight" Grid.RowSpan="2" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Slider Name="rotateX" Width="120" Value="0" Maximum="360" Minimum="0" ValueChanged="rotateX_ValueChanged" />
+                <Slider Maximum="360" Name="rotationY" Value="0" Grid.Row="1" Width="120" Minimum="0" ValueChanged="rotationY_ValueChanged"/>
+                <Slider Maximum="360" Name="rotationZ" Value="0" Width="120" Minimum="0" ValueChanged="rotationZ_ValueChanged" />
+                <ComboBox Height="21" Name="cbColors" Width="120" SelectionChanged="cbColors_SelectionChanged" />
+            </StackPanel>
+        </StackPanel>
+        
+        <Viewport3D Name="mainViewport" ClipToBounds="True" DockPanel.Dock="Bottom">
+            <Viewport3D.Camera>
+                <PerspectiveCamera x:Name="mCamera" Position="10,10,70" LookDirection="-1,-1,-8"
+                        FarPlaneDistance="100" UpDirection="0,1,0" NearPlaneDistance="1" FieldOfView="70" >
+                    <PerspectiveCamera.Transform>
+                        <Transform3DGroup>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D x:Name="rotY" Axis="0 1 0" Angle="0" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D x:Name="rotX" Axis="1 0 0" Angle="0" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D x:Name="rotZ" Axis="0 0 1" Angle="0" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                        </Transform3DGroup>
+                    </PerspectiveCamera.Transform>
+                </PerspectiveCamera>
+            </Viewport3D.Camera>
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <DirectionalLight Color="Transparent" Direction="-3,-4,-5" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+        </Viewport3D>
+    </DockPanel>
+</Window>
