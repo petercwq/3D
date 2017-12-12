@@ -7,6 +7,7 @@
 - [Rendering Transparent 3D Surfaces in WPF with C#](http://xoax.net/blog/rendering-transparent-3d-surfaces-in-wpf-with-c/)
 - [Getting started with 3D in WPF](http://www.barth-dev.de/getting-started-3d-wpf/)
 - [Make a stellate geodesic sphere with WPF and C#](http://csharphelper.com/blog/2015/12/make-a-stellate-geodesic-sphere-with-wpf-and-c/)
+- [Let the user select and deselect 3D objects using WPF and C#](http://csharphelper.com/blog/2014/10/let-the-user-select-and-deselect-3d-objects-using-wpf-and-c/)
 - [Magnet: A mind teaser in 3D](https://www.codeproject.com/Articles/679993/Magnet-A-mind-teaser-in-D)
 - [WPF 3D Article, Tutorial with Chart Graphics C# Code](http://www.ucancode.net/WPF-3D-Article-Tutorial-with-Chart-Graphics-CSharp-Code.htm)
 - [WPF: Rubik's Cube](https://www.codeproject.com/Articles/322872/WPF-Rubiks-Cube)
