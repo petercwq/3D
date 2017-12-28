@@ -8,7 +8,7 @@ namespace Magnet
     /// <summary>
     /// 
     /// </summary>
-    class  Cube : Base3D
+    class Cube : Base3D
     {
         public double NewDistanceFromViewer = 0;
         public double OldDistanceFromViewer = 0;
@@ -18,7 +18,7 @@ namespace Magnet
         internal override Geometry3D Draw()
         {
             Model3DGroup modelGroup = new Model3DGroup();
-            double correction = 1;
+            double correction = Constants.MeshCylinderRadius;
             Point3D point3d = new Point3D(this.StartingPointCube.X + correction, this.StartingPointCube.Y + correction, this.StartingPointCube.Z + correction);
 
             double widthHeightDepth = base.WidthHeightDepth - correction;
@@ -118,7 +118,7 @@ namespace Magnet
             {
                 geom = new GeometryModel3D(mesh, new DiffuseMaterial(brush));
             }
-          ///  geom.BackMaterial = new DiffuseMaterial(brush);
+            ///  geom.BackMaterial = new DiffuseMaterial(brush);
 
             /// add the object
             modelGroup.Children.Add(geom);

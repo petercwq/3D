@@ -28,16 +28,17 @@ namespace Magnet
         Vector3DAnimationUsingKeyFrames animationKeyFramesCameraLookDirection;
         DoubleAnimationUsingKeyFrames animationFieldView;
         Point3DAnimationUsingKeyFrames animationKeyFramesBLocks;
+
         Dictionary<int, Dictionary<int, Cube>> position = new Dictionary<int, Dictionary<int, Cube>>();
-        readonly TranslateTransform3D translate = new TranslateTransform3D(-225,-225,-125);
-        Duration  BlockMovementTime =  new Duration(new TimeSpan(0, 0, 1));
+        readonly TranslateTransform3D translate = new TranslateTransform3D(-225, -225, -125);
+        Duration BlockMovementTime = new Duration(new TimeSpan(0, 0, 1));
         TimeSpan BlockBeginTime = new TimeSpan(0, 0, 0);
         List<Color> colorsCollection;
         List<ModelVisual3D> cubesCollection;
         Point3D cameraPosition = new Point3D(00, 125, 855);
         Vector3D cameraLookDirection = new Vector3D(0, -125, -855);
 
-        TranslateTransform3D Translate 
+        TranslateTransform3D Translate
         {
             get
             {
@@ -56,7 +57,7 @@ namespace Magnet
             get;
             private set;
         }
-    
+
         public List<Color> ColorsCollection
         {
             get
@@ -72,7 +73,7 @@ namespace Magnet
                 return colorsCollection;
             }
         }
-       
+
         public List<ModelVisual3D> CubesCollection
         {
             get
@@ -80,7 +81,7 @@ namespace Magnet
                 return cubesCollection;
             }
         }
-       
+
         public Point3D CameraPosition
         {
             get
@@ -107,7 +108,7 @@ namespace Magnet
                 NotifyPropertyChanged("StepCount");
             }
         }
-       
+
         public Vector3D CameraLookDirection
         {
             get
@@ -120,7 +121,7 @@ namespace Magnet
                 NotifyPropertyChanged("CameraLookDirection");
             }
         }
-     
+
         public double FieldofView
         {
             get
@@ -133,7 +134,7 @@ namespace Magnet
                 NotifyPropertyChanged("FieldofView");
             }
         }
-        
+
         private PerspectiveCamera ViewModelCamera
         {
             get
@@ -156,9 +157,9 @@ namespace Magnet
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public event PropertyChangedEventHandler CollectionChanged;
-     
+
         /// <summary>
         /// 
         /// </summary>
@@ -177,12 +178,12 @@ namespace Magnet
         public MagnetViewModel()
         {
             this.cubesCollection = new List<ModelVisual3D>();
-           
+
             Initialize();
 
             this.KeyDownCommand = new DelegateCommand<KeyEventArgs>(
             (s) => { MoveCube(s); },
-            (s) => { return true; } 
+            (s) => { return true; }
             );
         }
 
@@ -241,20 +242,20 @@ namespace Magnet
             Model3DGroup targetFigureGroup = new Model3DGroup();
 
             double cubeLength = Constants.TargetCubeLength;
-          
+
             Cube cubeMain = new Cube();
-        
+
             List<Point3D> pointCollection = new List<Point3D>();
 
             pointCollection.Add(new Point3D(0, 0, 0));
-            pointCollection.Add(new Point3D(2 * cubeLength,0,0));
-            pointCollection.Add(new Point3D(1*cubeLength, 1 * cubeLength, 0));
+            pointCollection.Add(new Point3D(2 * cubeLength, 0, 0));
+            pointCollection.Add(new Point3D(1 * cubeLength, 1 * cubeLength, 0));
             pointCollection.Add(new Point3D(cubeLength, -1 * cubeLength, 0));
 
             pointCollection.Add(new Point3D(1 * cubeLength, 0, 1 * cubeLength));
             pointCollection.Add(new Point3D(cubeLength, 0, -1 * cubeLength));
 
-            for (int i = 0; i <=5; i++)
+            for (int i = 0; i <= 5; i++)
             {
                 cubeMain = new Cube();
                 cubeMain.Transform = Translate;
@@ -281,9 +282,7 @@ namespace Magnet
         /// </summary>
         private void PlaceCubes()
         {
-            int totalCubes = (int)((Constants.BlocksInXdirection) * (Constants.BlocksInZdirection) * Constants.NoofFloor);
             int cubesPerFloor = (int)((Constants.BlocksInXdirection) * (Constants.BlocksInZdirection));
-            double cubeLength = Constants.CubeLength;
 
             for (int i = 0; i < Constants.NoofFloor; i++)
             {
@@ -292,20 +291,19 @@ namespace Magnet
                 {
                     floor.Add(j, null);
                 }
-
                 position.Add(i, floor);
             }
 
-            this.Magnet = PlaceCube(Constants.MagnetBlockXDirection,Constants.MagnetBlockYDirection, Constants.MagnetBlockZDirection, Colors.Yellow); 
-           
-            this.MagnetFloorNo = Constants.MagnetBlockYDirection;
-            this.MagnetPositionOnFloor = Constants.BlocksInXdirection * Constants.MagnetBlockZDirection + Constants.MagnetBlockXDirection;
-         
+            this.Magnet = PlaceCube(Constants.MagnetInitialXPos, Constants.MagnetInitialYPos, Constants.MagnetInitialZPos, Colors.Yellow);
+
+            this.MagnetFloorNo = Constants.MagnetInitialYPos;
+            this.MagnetPositionOnFloor = Constants.BlocksInXdirection * Constants.MagnetInitialZPos + Constants.MagnetInitialXPos;
+
             this.position[this.MagnetFloorNo][this.MagnetPositionOnFloor] = this.Magnet;
             this.Magnet.IsMovingCube = true;
             Random randomCube = new Random(1000);
             Random randomDirection = new Random();
-           
+
             int xcoor, ycoor, zcoor;
             int floorNo = -1;
             int positionOnFloor = randomCube.Next(0, cubesPerFloor);
@@ -359,7 +357,7 @@ namespace Magnet
         /// </summary>
         private Cube PlaceCube(int xCoor, int yCoor, int zCoor, Color color)
         {
-            double cubeLength =Constants.CubeLength;
+            double cubeLength = Constants.CubeLength;
             Cube cube3d = new Cube();
             cube3d.Transform = Translate;
             cube3d.color = color;
@@ -367,7 +365,6 @@ namespace Magnet
             cube3d.opacity = 1;
             cube3d.StartingPointCube = new Point3D(cubeLength * xCoor, cubeLength * yCoor, cubeLength * zCoor);
             cubesCollection.Add(cube3d);
-
             return cube3d;
         }
 
@@ -381,7 +378,7 @@ namespace Magnet
         {
             if (animationKeyFramesBLocks != null)
             {
-              ///  animationKeyFramesBLocks.Completed -= AnimationKeyFramesBLocks_Completed;
+                ///  animationKeyFramesBLocks.Completed -= AnimationKeyFramesBLocks_Completed;
             }
 
             animationKeyFramesBLocks = new Point3DAnimationUsingKeyFrames();
@@ -466,7 +463,7 @@ namespace Magnet
                 {
                     animationKeyFramesBox.Completed -= AnimationKeyFramesBox_Completed;
                 }
-            
+
                 animationKeyFramesBox = new Point3DAnimationUsingKeyFrames();
                 animationKeyFramesBox.Completed += new EventHandler(AnimationKeyFramesBox_Completed);
 
@@ -474,7 +471,7 @@ namespace Magnet
                 {
                     animationFieldView.Completed -= new EventHandler(AnimationFieldView_Completed);
                 }
-             
+
                 animationFieldView = new DoubleAnimationUsingKeyFrames();
                 animationFieldView.Completed += new EventHandler(AnimationFieldView_Completed);
 
@@ -822,7 +819,7 @@ namespace Magnet
                 }
             }
         }
-    
+
 
         /// <summary>
         /// 
@@ -832,7 +829,7 @@ namespace Magnet
         private void AnimationFieldView_Completed(object sender, EventArgs e)
         {
             fieldViewAnimationCompleted = true;
-            
+
         }
 
         /// <summary>
@@ -955,7 +952,7 @@ namespace Magnet
             }
 
             Magnet.BeginAnimation(Cube.StartingPointCubeProperty, animationKeyFrames, HandoffBehavior.Compose);
-        
+
             this.ViewModelCamera.BeginAnimation(PerspectiveCamera.PositionProperty, animationKeyFramesCameraPosition, HandoffBehavior.Compose);
             this.ViewModelCamera.BeginAnimation(PerspectiveCamera.LookDirectionProperty, animationKeyFramesCameraLookDirection, HandoffBehavior.Compose);
             this.ViewModelCamera.BeginAnimation(PerspectiveCamera.FieldOfViewProperty, animationKeyFramesFieldofView, HandoffBehavior.Compose);
@@ -1141,7 +1138,7 @@ namespace Magnet
             }
         }
 
-       
+
 
         /// <summary>
         /// 
@@ -1187,34 +1184,34 @@ namespace Magnet
                                 {
                                     List<Cube> remove = new List<Cube>();
 
-                                   Cube cube = position[MagnetFloorNo][MagnetPositionOnFloor - 1];
-                                   this.CubesCollection.Remove(cube);
+                                    Cube cube = position[MagnetFloorNo][MagnetPositionOnFloor - 1];
+                                    this.CubesCollection.Remove(cube);
                                     remove.Add(cube);
 
-                                   cube = position[MagnetFloorNo][MagnetPositionOnFloor + 1];
-                                   this.CubesCollection.Remove(cube);
-                                     remove.Add(cube);
+                                    cube = position[MagnetFloorNo][MagnetPositionOnFloor + 1];
+                                    this.CubesCollection.Remove(cube);
+                                    remove.Add(cube);
 
-                                   cube = position[MagnetFloorNo][MagnetPositionOnFloor + Constants.BlocksInXdirection];
-                                   this.CubesCollection.Remove(cube);
-                                     remove.Add(cube);
+                                    cube = position[MagnetFloorNo][MagnetPositionOnFloor + Constants.BlocksInXdirection];
+                                    this.CubesCollection.Remove(cube);
+                                    remove.Add(cube);
 
-                                   cube = position[MagnetFloorNo][MagnetPositionOnFloor - Constants.BlocksInXdirection];
-                                   this.CubesCollection.Remove(cube);
-                                     remove.Add(cube);
+                                    cube = position[MagnetFloorNo][MagnetPositionOnFloor - Constants.BlocksInXdirection];
+                                    this.CubesCollection.Remove(cube);
+                                    remove.Add(cube);
 
-                                   cube = position[MagnetFloorNo - 1][MagnetPositionOnFloor];
-                                   this.CubesCollection.Remove(cube);
-                                     remove.Add(cube);
+                                    cube = position[MagnetFloorNo - 1][MagnetPositionOnFloor];
+                                    this.CubesCollection.Remove(cube);
+                                    remove.Add(cube);
 
-                                   cube = position[MagnetFloorNo + 1][MagnetPositionOnFloor];
-                                   this.CubesCollection.Remove(cube);
-                                     remove.Add(cube);
+                                    cube = position[MagnetFloorNo + 1][MagnetPositionOnFloor];
+                                    this.CubesCollection.Remove(cube);
+                                    remove.Add(cube);
 
-                                   if (CollectionChanged != null)
-                                   {
-                                       CollectionChanged(remove,null);
-                                   }
+                                    if (CollectionChanged != null)
+                                    {
+                                        CollectionChanged(remove, null);
+                                    }
                                 }
                             }
                         }

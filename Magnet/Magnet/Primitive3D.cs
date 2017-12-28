@@ -10,12 +10,11 @@ namespace Magnet
         public Primitive3D()
         {
             Content = _content;
-         
             _content.Geometry = Tessellate();
         }
-     
-       public static DependencyProperty RadiusProperty =
-       DependencyProperty.Register("Radius", typeof(double), typeof(Primitive3D), new PropertyMetadata(OnRadiusChanged));
+
+        public static DependencyProperty RadiusProperty =
+        DependencyProperty.Register("Radius", typeof(double), typeof(Primitive3D), new PropertyMetadata(OnRadiusChanged));
 
         public double Radius
         {
@@ -81,7 +80,7 @@ namespace Magnet
             Primitive3D p = ((Primitive3D)sender);
             p._content.BackMaterial = p.BackMaterial;
             p._content.Geometry = p.Tessellate();
-                            
+
         }
         internal static void OnMaterialChanged(Object sender, DependencyPropertyChangedEventArgs e)
         {
