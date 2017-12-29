@@ -138,6 +138,11 @@ namespace howto_3D_select_objects
             model_group.Children.Add(conemodel);
             SelectableModels.Add(conemodel);
 
+            // text
+            var forwardmodel = "前方".To3DLabel(new Point3D(0, 0, 6.5), new Vector3D(1, 0, 0), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
+            model_group.Children.Add(forwardmodel);
+            SelectableModels.Add(forwardmodel);
+
             // X axis.
             MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(6);
             model_group.Children.Add(mesh_x.SetMaterial(Brushes.Red, false));
