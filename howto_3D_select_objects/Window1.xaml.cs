@@ -25,7 +25,7 @@ namespace howto_3D_select_objects
 
         // The camera's current location.
         private double CameraPhi = Math.PI / 6.0;       // 30 degrees
-        private double CameraTheta = Math.PI / 6.0;     // 30 degrees
+        private double CameraTheta = Math.PI * (1 - 1 / 10.0);     // 30 degrees
         private double CameraR = 20.0;
 
         // The change in CameraPhi when you press the up and down arrows.
@@ -139,12 +139,17 @@ namespace howto_3D_select_objects
             SelectableModels.Add(conemodel);
 
             // text
-            var forwardmodel = "前方".To3DLabel(new Point3D(0, 0, 6.5), new Vector3D(1, 0, 0), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
+            var forwardmodel = "前方".To3DLabel(new Point3D(16.5, 0, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
             model_group.Children.Add(forwardmodel);
-            SelectableModels.Add(forwardmodel);
+
+            var rightmodel = "右方".To3DLabel(new Point3D(0, 0, 6.5), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
+            model_group.Children.Add(rightmodel);
+
+            var upmodel = "上方".To3DLabel(new Point3D(0, 6.5, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
+            model_group.Children.Add(upmodel);
 
             // X axis.
-            MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(6);
+            MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(10);
             model_group.Children.Add(mesh_x.SetMaterial(Brushes.Red, false));
 
             // Y axis.
