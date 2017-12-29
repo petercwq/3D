@@ -1,4 +1,4 @@
-﻿#define IRB6700
+﻿//#define IRB6700
 
 using System;
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ namespace RobotArmHelix
     /// Interaction logic for UserControl1.xaml
     /// </summary>
     public partial class MainWindow : Window
-   { 
+    {
         //provides functionality to 3d models
         Model3DGroup RA = new Model3DGroup(); //RoboticArm 3d group
         Model3D geom = null; //Debug sphere to check in which point the joint is rotatin
@@ -180,7 +180,7 @@ namespace RobotArmHelix
                 ModelImporter import = new ModelImporter();
                 joints = new List<Joint>();
 
-                foreach(string modelName in modelsNames)
+                foreach (string modelName in modelsNames)
                 {
                     var materialGroup = new MaterialGroup();
                     Color mainColor = Colors.White;
@@ -313,7 +313,7 @@ namespace RobotArmHelix
                 RA.Children.Add(joints[8].model);
                 RA.Children.Add(joints[9].model);
                 RA.Children.Add(joints[10].model);
-                
+
                 joints[0].angleMin = -180;
                 joints[0].angleMax = 180;
                 joints[0].rotAxisX = 0;
@@ -328,7 +328,7 @@ namespace RobotArmHelix
                 joints[1].rotAxisX = 0;
                 joints[1].rotAxisY = 1;
                 joints[1].rotAxisZ = 0;
-                joints[1].rotPointX = 175; 
+                joints[1].rotPointX = 175;
                 joints[1].rotPointY = -200;
                 joints[1].rotPointZ = 500;
 
@@ -378,14 +378,14 @@ namespace RobotArmHelix
 
         public static T Clamp<T>(T value, T min, T max)
             where T : System.IComparable<T>
-                {
-                    T result = value;
-                    if (value.CompareTo(max) > 0)
-                        result = max;
-                    if (value.CompareTo(min) < 0)
-                        result = min;
-                    return result;
-                }
+        {
+            T result = value;
+            if (value.CompareTo(max) > 0)
+                result = max;
+            if (value.CompareTo(min) < 0)
+                result = min;
+            return result;
+        }
 
         private void ReachingPoint_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -413,7 +413,7 @@ namespace RobotArmHelix
             int sel = ((int)jointSelector.Value) - 1;
             switchingJoint = true;
             unselectModel();
-            if(sel < 0)
+            if (sel < 0)
             {
                 jointX.IsEnabled = false;
                 jointY.IsEnabled = false;
@@ -544,12 +544,12 @@ namespace RobotArmHelix
         {
             try
             {
-                Model3DGroup models = ((Model3DGroup) pModel);
+                Model3DGroup models = ((Model3DGroup)pModel);
                 oldSelectedModel = models.Children[0] as GeometryModel3D;
             }
             catch (Exception exc)
             {
-                oldSelectedModel = (GeometryModel3D) pModel;
+                oldSelectedModel = (GeometryModel3D)pModel;
             }
             oldColor = changeModelColor(oldSelectedModel, ColorHelper.HexToColor("#ff3333"));
         }
@@ -561,9 +561,9 @@ namespace RobotArmHelix
 
         private void ViewPort3D_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-           Point mousePos = e.GetPosition(viewPort3d);
-           PointHitTestParameters hitParams = new PointHitTestParameters(mousePos);
-           VisualTreeHelper.HitTest(viewPort3d, null, ResultCallback, hitParams);
+            Point mousePos = e.GetPosition(viewPort3d);
+            PointHitTestParameters hitParams = new PointHitTestParameters(mousePos);
+            VisualTreeHelper.HitTest(viewPort3d, null, ResultCallback, hitParams);
         }
 
         private void ViewPort3D_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -621,7 +621,7 @@ namespace RobotArmHelix
 
         public void timer1_Tick(object sender, EventArgs e)
         {
-            double[] angles = {joints[0].angle, joints[1].angle, joints[2].angle, joints[3].angle, joints[4].angle, joints[5].angle};
+            double[] angles = { joints[0].angle, joints[1].angle, joints[2].angle, joints[3].angle, joints[4].angle, joints[5].angle };
             angles = InverseKinematics(reachingPoint, angles);
             joint1.Value = joints[0].angle = angles[0];
             joint2.Value = joints[1].angle = angles[1];
@@ -637,7 +637,7 @@ namespace RobotArmHelix
                 timer1.Stop();
             }
         }
-       
+
         public double[] InverseKinematics(Vector3D target, double[] angles)
         {
             if (DistanceFromTarget(target, angles) < DistanceThreshold)
@@ -671,7 +671,7 @@ namespace RobotArmHelix
 
         public bool checkAngles(double[] oldAngles, double[] angles)
         {
-            for(int i = 0; i <= 5; i++)
+            for (int i = 0; i <= 5; i++)
             {
                 if (oldAngles[i] != angles[i])
                     return false;
@@ -703,13 +703,13 @@ namespace RobotArmHelix
 
         public double DistanceFromTarget(Vector3D target, double[] angles)
         {
-            Vector3D point = ForwardKinematics (angles);      
+            Vector3D point = ForwardKinematics(angles);
             return Math.Sqrt(Math.Pow((point.X - target.X), 2.0) + Math.Pow((point.Y - target.Y), 2.0) + Math.Pow((point.Z - target.Z), 2.0));
         }
-        
 
-        public Vector3D ForwardKinematics(double [] angles)
-        {            
+
+        public Vector3D ForwardKinematics(double[] angles)
+        {
             //The base only has rotation and is always at the origin, so the only transform in the transformGroup is the rotation R
             F1 = new Transform3DGroup();
             R = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(joints[0].rotAxisX, joints[0].rotAxisY, joints[0].rotAxisZ), angles[0]), new Point3D(joints[0].rotPointX, joints[0].rotPointY, joints[0].rotPointZ));
@@ -722,7 +722,7 @@ namespace RobotArmHelix
             //After some testing it looks like the point 175, -200, 500 is the sweet spot to achieve the rotation intended for the joint
             //finally we also need to apply the transformation applied to the base 
             F2 = new Transform3DGroup();
-            T = new TranslateTransform3D(0,0,0);
+            T = new TranslateTransform3D(0, 0, 0);
             R = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(joints[1].rotAxisX, joints[1].rotAxisY, joints[1].rotAxisZ), angles[1]), new Point3D(joints[1].rotPointX, joints[1].rotPointY, joints[1].rotPointZ));
             F2.Children.Add(T);
             F2.Children.Add(R);
@@ -739,7 +739,7 @@ namespace RobotArmHelix
 
             //as before
             F4 = new Transform3DGroup();
-            T = new TranslateTransform3D(0,0,0); //1500, 650, 1650
+            T = new TranslateTransform3D(0, 0, 0); //1500, 650, 1650
             R = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(joints[3].rotAxisX, joints[3].rotAxisY, joints[3].rotAxisZ), angles[3]), new Point3D(joints[3].rotPointX, joints[3].rotPointY, joints[3].rotPointZ));
             F4.Children.Add(T);
             F4.Children.Add(R);
@@ -770,7 +770,7 @@ namespace RobotArmHelix
             joints[3].model.Transform = F4; //the "forearm"
             joints[4].model.Transform = F5; //the tool plate
             joints[5].model.Transform = F6; //the tool
-            
+
             Tx.Content = joints[5].model.Bounds.Location.X;
             Ty.Content = joints[5].model.Bounds.Location.Y;
             Tz.Content = joints[5].model.Bounds.Location.Z;

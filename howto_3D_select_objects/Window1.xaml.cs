@@ -26,16 +26,16 @@ namespace howto_3D_select_objects
         // The camera's current location.
         private double CameraPhi = Math.PI / 6.0;       // 30 degrees
         private double CameraTheta = Math.PI * (1 - 1 / 10.0);     // 30 degrees
-        private double CameraR = 20.0;
+        private double CameraR = 30.0;
 
         // The change in CameraPhi when you press the up and down arrows.
-        private const double CameraDPhi = 0.1;
+        private const double CameraDeltaPhi = 0.1;
 
         // The change in CameraTheta when you press the left and right arrows.
-        private const double CameraDTheta = 0.1;
+        private const double CameraDeltaTheta = 0.1;
 
         // The change in CameraR when you press + or -.
-        private const double CameraDR = 0.1;
+        private const double CameraDeltaR = 0.2;
 
         // The currently selected model.
         private GeometryModel3D SelectedModel = null;
@@ -44,8 +44,7 @@ namespace howto_3D_select_objects
         private Material NormalMaterial, SelectedMaterial;
 
         // The list of selectable models.
-        private List<GeometryModel3D> SelectableModels =
-            new List<GeometryModel3D>();
+        private List<GeometryModel3D> SelectableModels = new List<GeometryModel3D>();
 
         // Create the scene.
         // MainViewport is the Viewport3D defined
@@ -173,27 +172,27 @@ namespace howto_3D_select_objects
             switch (e.Key)
             {
                 case Key.Up:
-                    CameraPhi += CameraDPhi;
+                    CameraPhi += CameraDeltaPhi;
                     if (CameraPhi > Math.PI / 2.0) CameraPhi = Math.PI / 2.0;
                     break;
                 case Key.Down:
-                    CameraPhi -= CameraDPhi;
+                    CameraPhi -= CameraDeltaPhi;
                     if (CameraPhi < -Math.PI / 2.0) CameraPhi = -Math.PI / 2.0;
                     break;
                 case Key.Left:
-                    CameraTheta += CameraDTheta;
+                    CameraTheta += CameraDeltaTheta;
                     break;
                 case Key.Right:
-                    CameraTheta -= CameraDTheta;
+                    CameraTheta -= CameraDeltaTheta;
                     break;
                 case Key.Add:
                 case Key.OemPlus:
-                    CameraR -= CameraDR;
-                    if (CameraR < CameraDR) CameraR = CameraDR;
+                    CameraR -= CameraDeltaR;
+                    if (CameraR < CameraDeltaR) CameraR = CameraDeltaR;
                     break;
                 case Key.Subtract:
                 case Key.OemMinus:
-                    CameraR += CameraDR;
+                    CameraR += CameraDeltaR;
                     break;
             }
 

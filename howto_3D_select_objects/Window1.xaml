@@ -2,13 +2,23 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="howto_3D_select_objects"
-    Height="500" Width="500"
+    Height="800" Width="1280"
     Loaded="Window_Loaded"
     KeyDown="Window_KeyDown">
     <Grid>
-        <Border Grid.Row="0" Grid.Column="0" Background="White"
-            MouseDown="MainViewport_MouseDown">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" Background="White" MouseDown="MainViewport_MouseDown">
             <Viewport3D Grid.Row="0" Grid.Column="0" Name="MainViewport" />
         </Border>
+        <StackPanel Orientation="Vertical">
+            <CheckBox Content="Good" Margin="10,2"/>
+            <CheckBox Content="Bad" Margin="10,2"/>
+            <CheckBox Content="Untouched" Margin="10,2"/>
+            <CheckBox Content="Done By Others" Margin="10,2"/>
+            <CheckBox Content="Mixing Unit" Margin="10,2"/>
+        </StackPanel>
     </Grid>
 </Window>
