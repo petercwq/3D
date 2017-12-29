@@ -138,27 +138,23 @@ namespace howto_3D_select_objects
             model_group.Children.Add(conemodel);
             SelectableModels.Add(conemodel);
 
-            // text
-            var forwardmodel = "前方".To3DLabel(new Point3D(16.5, 0, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
+            // X axis.
+            MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(1, 7);
+            model_group.Children.Add(mesh_x.SetMaterial(Brushes.Red, false));
+            var forwardmodel = "前方".To3DLabel(new Point3D(8.5, 0.5, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), Brushes.Red, 0.5);
             model_group.Children.Add(forwardmodel);
 
-            var rightmodel = "右方".To3DLabel(new Point3D(0, 0, 6.5), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
-            model_group.Children.Add(rightmodel);
-
-            var upmodel = "上方".To3DLabel(new Point3D(0, 6.5, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), new SolidColorBrush(Colors.Blue), 0.5);
+            // Y axis.
+            MeshGeometry3D mesh_y = MeshExtensions.YAxisArrow(1, 7);
+            model_group.Children.Add(mesh_y.SetMaterial(Brushes.Green, false));
+            var upmodel = "上方".To3DLabel(new Point3D(0, 8.5, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), Brushes.Green, 0.5);
             model_group.Children.Add(upmodel);
 
-            // X axis.
-            MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(10);
-            model_group.Children.Add(mesh_x.SetMaterial(Brushes.Red, false));
-
-            // Y axis.
-            MeshGeometry3D mesh_y = MeshExtensions.YAxisArrow(6);
-            model_group.Children.Add(mesh_y.SetMaterial(Brushes.Green, false));
-
             // Z axis.
-            MeshGeometry3D mesh_z = MeshExtensions.ZAxisArrow(6);
+            MeshGeometry3D mesh_z = MeshExtensions.ZAxisArrow(1, 7);
             model_group.Children.Add(mesh_z.SetMaterial(Brushes.Blue, false));
+            var rightmodel = "右方".To3DLabel(new Point3D(0, 0, 9), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0), Brushes.Blue, 0.5);
+            model_group.Children.Add(rightmodel);
         }
 
         // Set the vector's length.

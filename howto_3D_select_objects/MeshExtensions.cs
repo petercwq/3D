@@ -422,24 +422,24 @@ namespace howto_3D_select_objects
         }
 
         // Add axes with the given lengths.
-        public static MeshGeometry3D XAxisArrow(float length)
+        public static MeshGeometry3D XAxisArrow(float length, float start = 0)
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
-            mesh.AddArrow(new Point3D(0, 0, 0), new Point3D(length, 0, 0),
+            mesh.AddArrow(new Point3D(start, 0, 0), new Point3D(start + length, 0, 0),
                 new Vector3D(0, 1, 0), 0.5);
             return mesh;
         }
-        public static MeshGeometry3D YAxisArrow(float length)
+        public static MeshGeometry3D YAxisArrow(float length, float start = 0)
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
-            mesh.AddArrow(new Point3D(0, 0, 0), new Point3D(0, length, 0),
+            mesh.AddArrow(new Point3D(0, start, 0), new Point3D(0, start + length, 0),
                 new Vector3D(1, 0, 0), 0.5);
             return mesh;
         }
-        public static MeshGeometry3D ZAxisArrow(float length)
+        public static MeshGeometry3D ZAxisArrow(float length, float start = 0)
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
-            mesh.AddArrow(new Point3D(0, 0, 0), new Point3D(0, 0, length),
+            mesh.AddArrow(new Point3D(0, 0, start), new Point3D(0, 0, start + length),
                 new Vector3D(0, 1, 0), 0.5);
             return mesh;
         }
