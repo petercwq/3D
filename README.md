@@ -12,7 +12,10 @@
 - [Wpf Cube Three Dee](http://www.pererikstrandberg.se/blog/index.cgi?page=WpfCubeThreeDee)
 - [WPF 3D Article, Tutorial with Chart Graphics C# Code](http://www.ucancode.net/WPF-3D-Article-Tutorial-with-Chart-Graphics-CSharp-Code.htm)
 - [WPF: Rubik's Cube](https://www.codeproject.com/Articles/322872/WPF-Rubiks-Cube)
-- 
+- [Draw smooth cylinders using WPF and C#](http://csharphelper.com/blog/2015/04/draw-smooth-cylinders-using-wpf-and-c/)
+- [Draw spheres using WPF and C#](http://csharphelper.com/blog/2015/04/draw-spheres-using-wpf-and-c/)
+- [Draw smooth spheres using WPF and C#](http://csharphelper.com/blog/2015/04/draw-smooth-spheres-using-wpf-and-c/)
+
 
 Axis-angle rotations work well for static transformations and some animations. However, consider rotating a cube model 60 degrees around the X axis, then 45 degrees around the Z axis. You can describe this transformation as two discrete affine transformations, or as a matrix. However, it might be difficult to smoothly animate a rotation defined this way. Although the beginning and ending positions of the model computed by either approach are the same, the intermediate positions taken by the model are computationally uncertain. Quaternions represent an alternative way to compute the interpolation between the start and end of a rotation.
 

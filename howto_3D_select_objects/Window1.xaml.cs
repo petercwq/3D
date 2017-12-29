@@ -111,11 +111,25 @@ namespace howto_3D_select_objects
             }
 
             // test cage adding
-            MeshGeometry3D mesh1 = new MeshGeometry3D();
-            mesh1.AddCage(5, 5, 5, 2, 2, 2, 0.05);
-            var model1 = new GeometryModel3D(mesh1, NormalMaterial);
-            model_group.Children.Add(model1);
-            SelectableModels.Add(model1);
+            MeshGeometry3D cagemesh = new MeshGeometry3D();
+            cagemesh.AddCage(5, 5, 5, 2, 2, 2, 0.05);
+            var cagemodel = new GeometryModel3D(cagemesh, NormalMaterial);
+            model_group.Children.Add(cagemodel);
+            SelectableModels.Add(cagemodel);
+
+            // test cylinder adding
+            MeshGeometry3D cylindermesh = new MeshGeometry3D();
+            cylindermesh.AddSmoothCylinder(new Point3D(7, 7, 7), new Vector3D(1, 1, 1), 0.5, 20);
+            var cylindermodel = new GeometryModel3D(cylindermesh, NormalMaterial);
+            model_group.Children.Add(cylindermodel);
+            SelectableModels.Add(cylindermodel);
+
+            // test sphere adding
+            MeshGeometry3D spheremesh = new MeshGeometry3D();
+            spheremesh.AddSmoothSphere(new Point3D(8.5, 8.5, 8.5), Math.Sqrt(3 * 0.5 + 0.5 * 0.5), 20, 40);
+            var spheremodel = new GeometryModel3D(spheremesh, NormalMaterial);
+            model_group.Children.Add(spheremodel);
+            SelectableModels.Add(spheremodel);
 
             // X axis.
             MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(6);

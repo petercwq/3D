@@ -65,7 +65,7 @@ namespace howto_3D_select_objects
             for (int i = 0; i < mesh.Positions.Count; i++)
             {
                 // Set the normal vector's length.
-                vertex_normals[i] = ScaleVector(vertex_normals[i], length);
+                vertex_normals[i] = vertex_normals[i].Scale(length);
 
                 // Find the other end point.
                 Point3D endpoint = mesh.Positions[i] + vertex_normals[i];
@@ -109,7 +109,7 @@ namespace howto_3D_select_objects
             Vector3D n = FindTriangleNormal(point1, point2, point3);
 
             // Set the length.
-            n = ScaleVector(n, length);
+            n = n.Scale(length);
 
             // Find the center of the triangle.
             Point3D endpoint1 = new Point3D(
@@ -248,17 +248,17 @@ namespace howto_3D_select_objects
             if (extend)
             {
                 // Increase the segment's length on both ends by thickness / 2.
-                Vector3D n = ScaleVector(v, thickness / 2.0);
+                Vector3D n = v.Scale(thickness / 2.0);
                 point1 -= n;
                 point2 += n;
             }
 
             // Get the scaled up vector.
-            Vector3D n1 = ScaleVector(up, thickness / 2.0);
+            Vector3D n1 = up.Scale(thickness / 2.0);
 
             // Get another scaled perpendicular vector.
             Vector3D n2 = Vector3D.CrossProduct(v, n1);
-            n2 = ScaleVector(n2, thickness / 2.0);
+            n2 = n2.Scale(thickness / 2.0);
 
             // Make a skinny box.
             // p1pm means point1 PLUS n1 MINUS n2.
@@ -293,7 +293,7 @@ namespace howto_3D_select_objects
         }
 
         // Set the vector's length.
-        public static Vector3D ScaleVector(Vector3D vector, double length)
+        public static Vector3D Scale(this Vector3D vector, double length)
         {
             double scale = length / vector.Length;
             return new Vector3D(
@@ -319,8 +319,8 @@ namespace howto_3D_select_objects
             perp.Normalize();
 
             // Calculate the arrowhead end points.
-            Vector3D v1 = ScaleVector(-v + perp, barb_length);
-            Vector3D v2 = ScaleVector(-v - perp, barb_length);
+            Vector3D v1 = (-v + perp).Scale(barb_length);
+            Vector3D v2 = (-v - perp).Scale(barb_length);
 
             // Draw the arrowhead.
             AddSegment(mesh, point2, point2 + v1, up, 0.05);
@@ -481,6 +481,221 @@ namespace howto_3D_select_objects
             AddSegment(mesh, new Point3D(xmax, ymin, zmin), new Point3D(xmax, ymax, zmin), right, thickness, true);
             AddSegment(mesh, new Point3D(xmin, ymin, zmax), new Point3D(xmin, ymax, zmax), right, thickness, true);
             AddSegment(mesh, new Point3D(xmin, ymin, zmin), new Point3D(xmin, ymax, zmin), right, thickness, true);
+        }
+
+        // Add a cylinder with smooth sides.
+        public static void AddSmoothCylinder(this MeshGeometry3D mesh,
+            Point3D end_point, Vector3D axis, double radius, int num_sides)
+        {
+            // Get two vectors perpendicular to the axis.
+            Vector3D v1;
+            if ((axis.Z < -0.01) || (axis.Z > 0.01))
+                v1 = new Vector3D(axis.Z, axis.Z, -axis.X - axis.Y);
+            else
+                v1 = new Vector3D(-axis.Y - axis.Z, axis.X, axis.X);
+            Vector3D v2 = Vector3D.CrossProduct(v1, axis);
+
+            // Make the vectors have length radius.
+            v1 *= (radius / v1.Length);
+            v2 *= (radius / v2.Length);
+
+            // Make the top end cap.
+            // Make the end point.
+            int pt0 = mesh.Positions.Count; // Index of end_point.
+            mesh.Positions.Add(end_point);
+
+            // Make the top points.
+            double theta = 0;
+            double dtheta = 2 * Math.PI / num_sides;
+            for (int i = 0; i < num_sides; i++)
+            {
+                mesh.Positions.Add(end_point +
+                    Math.Cos(theta) * v1 +
+                    Math.Sin(theta) * v2);
+                theta += dtheta;
+            }
+
+            // Make the top triangles.
+            int pt1 = mesh.Positions.Count - 1; // Index of last point.
+            int pt2 = pt0 + 1;                  // Index of first point.
+            for (int i = 0; i < num_sides; i++)
+            {
+                mesh.TriangleIndices.Add(pt0);
+                mesh.TriangleIndices.Add(pt1);
+                mesh.TriangleIndices.Add(pt2);
+                pt1 = pt2++;
+            }
+
+            // Make the bottom end cap.
+            // Make the end point.
+            pt0 = mesh.Positions.Count; // Index of end_point2.
+            Point3D end_point2 = end_point + axis;
+            mesh.Positions.Add(end_point2);
+
+            // Make the bottom points.
+            theta = 0;
+            for (int i = 0; i < num_sides; i++)
+            {
+                mesh.Positions.Add(end_point2 +
+                    Math.Cos(theta) * v1 +
+                    Math.Sin(theta) * v2);
+                theta += dtheta;
+            }
+
+            // Make the bottom triangles.
+            theta = 0;
+            pt1 = mesh.Positions.Count - 1; // Index of last point.
+            pt2 = pt0 + 1;                  // Index of first point.
+            for (int i = 0; i < num_sides; i++)
+            {
+                mesh.TriangleIndices.Add(num_sides + 1);    // end_point2
+                mesh.TriangleIndices.Add(pt2);
+                mesh.TriangleIndices.Add(pt1);
+                pt1 = pt2++;
+            }
+
+            // Make the sides.
+            // Add the points to the mesh.
+            int first_side_point = mesh.Positions.Count;
+            theta = 0;
+            for (int i = 0; i < num_sides; i++)
+            {
+                Point3D p1 = end_point +
+                    Math.Cos(theta) * v1 +
+                    Math.Sin(theta) * v2;
+                mesh.Positions.Add(p1);
+                Point3D p2 = p1 + axis;
+                mesh.Positions.Add(p2);
+                theta += dtheta;
+            }
+
+            // Make the side triangles.
+            pt1 = mesh.Positions.Count - 2;
+            pt2 = pt1 + 1;
+            int pt3 = first_side_point;
+            int pt4 = pt3 + 1;
+            for (int i = 0; i < num_sides; i++)
+            {
+                mesh.TriangleIndices.Add(pt1);
+                mesh.TriangleIndices.Add(pt2);
+                mesh.TriangleIndices.Add(pt4);
+
+                mesh.TriangleIndices.Add(pt1);
+                mesh.TriangleIndices.Add(pt4);
+                mesh.TriangleIndices.Add(pt3);
+
+                pt1 = pt3;
+                pt3 += 2;
+                pt2 = pt4;
+                pt4 += 2;
+            }
+        }
+
+        // Add a triangle to the indicated mesh.
+        // Reuse points so triangles share normals.
+        public static void AddSmoothTriangle(this MeshGeometry3D mesh,
+            Dictionary<Point3D, int> dict,
+            Point3D point1, Point3D point2, Point3D point3)
+        {
+            int index1, index2, index3;
+
+            // Find or create the points.
+            if (dict.ContainsKey(point1)) index1 = dict[point1];
+            else
+            {
+                index1 = mesh.Positions.Count;
+                mesh.Positions.Add(point1);
+                dict.Add(point1, index1);
+            }
+
+            if (dict.ContainsKey(point2)) index2 = dict[point2];
+            else
+            {
+                index2 = mesh.Positions.Count;
+                mesh.Positions.Add(point2);
+                dict.Add(point2, index2);
+            }
+
+            if (dict.ContainsKey(point3)) index3 = dict[point3];
+            else
+            {
+                index3 = mesh.Positions.Count;
+                mesh.Positions.Add(point3);
+                dict.Add(point3, index3);
+            }
+
+            // If two or more of the points are
+            // the same, it's not a triangle.
+            if ((index1 == index2) ||
+                (index2 == index3) ||
+                (index3 == index1)) return;
+
+            // Create the triangle.
+            mesh.TriangleIndices.Add(index1);
+            mesh.TriangleIndices.Add(index2);
+            mesh.TriangleIndices.Add(index3);
+        }
+
+        // Add a sphere.
+        public static void AddSmoothSphere(this MeshGeometry3D mesh,
+            Point3D center, double radius, int num_phi, int num_theta)
+        {
+            // Make a dictionary to track the sphere's points.
+            Dictionary<Point3D, int> dict = new Dictionary<Point3D, int>();
+
+            double phi0, theta0;
+            double dphi = Math.PI / num_phi;
+            double dtheta = 2 * Math.PI / num_theta;
+
+            phi0 = 0;
+            double y0 = radius * Math.Cos(phi0);
+            double r0 = radius * Math.Sin(phi0);
+            for (int i = 0; i < num_phi; i++)
+            {
+                double phi1 = phi0 + dphi;
+                double y1 = radius * Math.Cos(phi1);
+                double r1 = radius * Math.Sin(phi1);
+
+                // Point ptAB has phi value A and theta value B.
+                // For example, pt01 has phi = phi0 and theta = theta1.
+                // Find the points with theta = theta0.
+                theta0 = 0;
+                Point3D pt00 = new Point3D(
+                    center.X + r0 * Math.Cos(theta0),
+                    center.Y + y0,
+                    center.Z + r0 * Math.Sin(theta0));
+                Point3D pt10 = new Point3D(
+                    center.X + r1 * Math.Cos(theta0),
+                    center.Y + y1,
+                    center.Z + r1 * Math.Sin(theta0));
+                for (int j = 0; j < num_theta; j++)
+                {
+                    // Find the points with theta = theta1.
+                    double theta1 = theta0 + dtheta;
+                    Point3D pt01 = new Point3D(
+                        center.X + r0 * Math.Cos(theta1),
+                        center.Y + y0,
+                        center.Z + r0 * Math.Sin(theta1));
+                    Point3D pt11 = new Point3D(
+                        center.X + r1 * Math.Cos(theta1),
+                        center.Y + y1,
+                        center.Z + r1 * Math.Sin(theta1));
+
+                    // Create the triangles.
+                    AddSmoothTriangle(mesh, dict, pt00, pt11, pt10);
+                    AddSmoothTriangle(mesh, dict, pt00, pt01, pt11);
+
+                    // Move to the next value of theta.
+                    theta0 = theta1;
+                    pt00 = pt01;
+                    pt10 = pt11;
+                }
+
+                // Move to the next value of phi.
+                phi0 = phi1;
+                y0 = y1;
+                r0 = r1;
+            }
         }
     }
 }

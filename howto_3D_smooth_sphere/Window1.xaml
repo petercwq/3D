@@ -1,0 +1,11 @@
+﻿<Window x:Class="howto_3D_smooth_sphere.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="howto_3D_smooth_sphere"
+    Height="500" Width="500"
+    Loaded="Window_Loaded"
+    KeyDown="Window_KeyDown">
+    <Grid>
+        <Viewport3D Grid.Row="0" Grid.Column="0" Name="MainViewport" />
+    </Grid>
+</Window>
