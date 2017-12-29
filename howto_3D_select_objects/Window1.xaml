@@ -6,19 +6,19 @@
     Loaded="Window_Loaded"
     KeyDown="Window_KeyDown">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Background="White" MouseDown="MainViewport_MouseDown">
+        </Grid.ColumnDefinitions>-->
+        <Border Background="White" MouseDown="MainViewport_MouseDown">
             <Viewport3D Grid.Row="0" Grid.Column="0" Name="MainViewport" />
         </Border>
-        <StackPanel Orientation="Vertical">
+        <!--<StackPanel Orientation="Vertical">
             <CheckBox Content="Good" Margin="10,2"/>
             <CheckBox Content="Bad" Margin="10,2"/>
             <CheckBox Content="Untouched" Margin="10,2"/>
             <CheckBox Content="Done By Others" Margin="10,2"/>
             <CheckBox Content="Mixing Unit" Margin="10,2"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Window>
