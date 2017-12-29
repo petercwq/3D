@@ -24,7 +24,7 @@ namespace Magnet
             double widthHeightDepth = base.WidthHeightDepth - correction;
 
             // add a light
-            /// modelGroup.Children.Add(new AmbientLight());
+            // modelGroup.Children.Add(new AmbientLight());
 
             // set up the mesh
             MeshGeometry3D mesh = new MeshGeometry3D();

@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 using System.Windows.Media.Media3D;
 
 namespace howto_3D_select_objects
@@ -118,6 +109,13 @@ namespace howto_3D_select_objects
                     }
                 }
             }
+
+            // test cage adding
+            MeshGeometry3D mesh1 = new MeshGeometry3D();
+            mesh1.AddCage(5, 5, 5, 2, 2, 2, 0.05);
+            var model1 = new GeometryModel3D(mesh1, NormalMaterial);
+            model_group.Children.Add(model1);
+            SelectableModels.Add(model1);
 
             // X axis.
             MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(6);

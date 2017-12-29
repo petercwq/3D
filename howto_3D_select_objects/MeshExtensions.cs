@@ -227,6 +227,7 @@ namespace howto_3D_select_objects
             // Add the segment.
             AddSegment(mesh, point1, point2, up, thickness, extend);
         }
+
         public static void AddSegment(MeshGeometry3D mesh,
             Point3D point1, Point3D point2, double thickness)
         {
@@ -463,23 +464,23 @@ namespace howto_3D_select_objects
 
             // Top.
             Vector3D up = new Vector3D(0, 1, 0);
-            AddSegment(mesh, new Point3D(xmax, ymax, zmax), new Point3D(xmax, ymax, -zmax), up, thickness, true);
-            AddSegment(mesh, new Point3D(xmax, ymax, -zmax), new Point3D(xmin, ymax, -zmax), up, thickness, true);
-            AddSegment(mesh, new Point3D(xmin, ymax, -zmax), new Point3D(xmin, ymax, zmax), up, thickness, true);
+            AddSegment(mesh, new Point3D(xmax, ymax, zmax), new Point3D(xmax, ymax, zmin), up, thickness, true);
+            AddSegment(mesh, new Point3D(xmax, ymax, zmin), new Point3D(xmin, ymax, zmin), up, thickness, true);
+            AddSegment(mesh, new Point3D(xmin, ymax, zmin), new Point3D(xmin, ymax, zmax), up, thickness, true);
             AddSegment(mesh, new Point3D(xmin, ymax, zmax), new Point3D(xmax, ymax, zmax), up, thickness, true);
 
             // Bottom.
-            AddSegment(mesh, new Point3D(xmax, ymin, zmax), new Point3D(xmax, ymin, -zmax), up, thickness, true);
-            AddSegment(mesh, new Point3D(xmax, ymin, -zmax), new Point3D(xmin, ymin, -zmax), up, thickness, true);
-            AddSegment(mesh, new Point3D(xmin, ymin, -zmax), new Point3D(xmin, ymin, zmax), up, thickness, true);
+            AddSegment(mesh, new Point3D(xmax, ymin, zmax), new Point3D(xmax, ymin, zmin), up, thickness, true);
+            AddSegment(mesh, new Point3D(xmax, ymin, zmin), new Point3D(xmin, ymin, zmin), up, thickness, true);
+            AddSegment(mesh, new Point3D(xmin, ymin, zmin), new Point3D(xmin, ymin, zmax), up, thickness, true);
             AddSegment(mesh, new Point3D(xmin, ymin, zmax), new Point3D(xmax, ymin, zmax), up, thickness, true);
 
             // Sides.
             Vector3D right = new Vector3D(1, 0, 0);
             AddSegment(mesh, new Point3D(xmax, ymin, zmax), new Point3D(xmax, ymax, zmax), right, thickness, true);
-            AddSegment(mesh, new Point3D(xmax, ymin, -zmax), new Point3D(xmax, ymax, -zmax), right, thickness, true);
+            AddSegment(mesh, new Point3D(xmax, ymin, zmin), new Point3D(xmax, ymax, zmin), right, thickness, true);
             AddSegment(mesh, new Point3D(xmin, ymin, zmax), new Point3D(xmin, ymax, zmax), right, thickness, true);
-            AddSegment(mesh, new Point3D(xmin, ymin, -zmax), new Point3D(xmin, ymax, -zmax), right, thickness, true);
+            AddSegment(mesh, new Point3D(xmin, ymin, zmin), new Point3D(xmin, ymax, zmin), right, thickness, true);
         }
     }
 }
