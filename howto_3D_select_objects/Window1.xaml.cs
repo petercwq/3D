@@ -26,7 +26,7 @@ namespace howto_3D_select_objects
         // The camera's current location.
         private double CameraPhi = Math.PI / 6.0;       // 30 degrees
         private double CameraTheta = Math.PI / 6.0;     // 30 degrees
-        private double CameraR = 15.0;
+        private double CameraR = 20.0;
 
         // The change in CameraPhi when you press the up and down arrows.
         private const double CameraDPhi = 0.1;
@@ -130,6 +130,13 @@ namespace howto_3D_select_objects
             var spheremodel = new GeometryModel3D(spheremesh, NormalMaterial);
             model_group.Children.Add(spheremodel);
             SelectableModels.Add(spheremodel);
+
+            // add cone
+            MeshGeometry3D conemesh = new MeshGeometry3D();
+            conemesh.AddCone(new Point3D(9, 9, 9), new Vector3D(1, 1, 1), 0.5, -0.2, 20);
+            var conemodel = new GeometryModel3D(conemesh, NormalMaterial);
+            model_group.Children.Add(conemodel);
+            SelectableModels.Add(conemodel);
 
             // X axis.
             MeshGeometry3D mesh_x = MeshExtensions.XAxisArrow(6);
